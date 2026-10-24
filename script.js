@@ -53,6 +53,16 @@ if (matchesCta) {
   matchesCta.rel = "noopener";
 }
 
+/* Menu CTA → WhatsApp with prefilled question */
+const menuCta = $("#menu-cta");
+if (menuCta) {
+  menuCta.href = buildWhatsAppUrl(
+    "Hello Constant Hotel & Suites! Do you currently serve ukwa, ofe onugbu, catfish pepper soup or other local dishes? Please share today's menu."
+  );
+  menuCta.target = "_blank";
+  menuCta.rel = "noopener";
+}
+
 /* ---------- Sticky header ---------- */
 const header = $("#site-header");
 const onScrollHeader = () => {
@@ -101,6 +111,7 @@ const sectionIds = [
   "about",
   "rooms",
   "bar",
+  "kitchen",
   "december",
   "amenities",
   "gallery",
@@ -295,12 +306,25 @@ if (contactForm) {
       .filter(Boolean)
       .join("\n");
 
+    const waUrl = buildWhatsAppUrl(waMessage);
     $$(".whatsapp-link", formSuccess).forEach((a) => {
-      a.href = buildWhatsAppUrl(waMessage);
+      a.href = waUrl;
     });
+
+    // Send via WhatsApp — opens the chat with the enquiry prefilled
+    window.open(waUrl, "_blank", "noopener");
 
     formSuccess.hidden = false;
     formSuccess.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    const sendBtn = contactForm.querySelector('button[type="submit"]');
+    if (sendBtn) {
+      sendBtn.textContent = "Sent ✓";
+      sendBtn.disabled = true;
+      setTimeout(() => {
+        sendBtn.textContent = "Send Enquiry";
+        sendBtn.disabled = false;
+      }, 4000);
+    }
   });
 
   $$("#contact-form input, #contact-form textarea").forEach((input) => {
