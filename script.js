@@ -6,7 +6,7 @@
 const CONFIG = {
   // Replace with the hotel's real WhatsApp number in international format
   // Example: "2348012345678" (no +, no spaces)
-  whatsappNumber: "2348000000000",
+  whatsappNumber: "2347037488782",
   whatsappDefaultMessage:
     "Hello Constant Hotel & Suites! I found your website and would like to enquire about a stay.",
 
@@ -37,9 +37,8 @@ $$(".whatsapp-link").forEach((el) => {
 });
 
 $$(".phone-link").forEach((el) => {
-  if (el.textContent.includes("XXX")) {
-    el.href = "#";
-    el.title = "Phone number placeholder — update in index.html";
+  if (!el.getAttribute("href") || el.getAttribute("href") === "#") {
+    el.href = `tel:+${CONFIG.whatsappNumber}`;
   }
 });
 
